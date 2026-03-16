@@ -5,9 +5,6 @@ public class PlayerMovement : MonoBehaviour
     // stuff we can tweak in the inspector
     public float moveSpeed = 5f;
     public float jumpForce = 12f;
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayer;
     public float dropDuration = 0.25f;
 
     private Rigidbody2D rb;
@@ -21,9 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // check if we're on the ground using a small circle at the player's feet
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
         // left and right movement
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
@@ -47,11 +41,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // ground detection using collision events
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ground"))
+            isGrounded = true;
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ground"))
+            isGrounded = false;
+    }
+
     // briefly disables collision so the player falls through
     private System.Collections.IEnumerator DropThroughPlatform()
     {
         Collider2D playerCollider = GetComponent<Collider2D>();
-        Collider2D[] platforms = Physics2D.OverlapCircleAll(groundCheck.position, groundCheckRadius, groundLayer);
+
+        // find nearby platforms using a small overlap check
+        Collider2D[] platforms = Physics2D.OverlapBoxAll(
+            transform.position, new Vector2(0.5f, 0.5f), 0f
+        );
 
         foreach (Collider2D platform in platforms)
         {
@@ -76,15 +87,5 @@ public class PlayerMovement : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
-    }
-
-    // draws the ground check radius in the editor so we can see it
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
     }
 }
