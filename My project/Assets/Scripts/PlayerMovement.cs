@@ -8,37 +8,54 @@ public class PlayerMovement : MonoBehaviour
     public float dropDuration = 0.25f;
 
     private Rigidbody2D rb;
-    private bool isGrounded;
+    [HideInInspector] public bool isGrounded;
     private bool facingRight = true;
+    private float moveInput;
+    private bool jumpPressed;
+    private bool dropPressed;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
     }
 
     void Update()
     {
-        // left and right movement
-        float moveInput = Input.GetAxisRaw("Horizontal");
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        // read input every frame so we don't miss key presses
+        moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            jumpPressed = true;
+
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            dropPressed = true;
 
         // flip the sprite when changing direction
         if (moveInput > 0 && !facingRight)
             Flip();
         else if (moveInput < 0 && facingRight)
             Flip();
+    }
 
-        // jumping - only works on the ground
-        if (isGrounded && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+    void FixedUpdate()
+    {
+        // move the player
+        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+
+        // jumping
+        if (isGrounded && jumpPressed)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
+        jumpPressed = false;
 
-        // drop through platforms tagged "OneWayPlatform"
-        if (isGrounded && (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)))
+        // drop through platforms
+        if (isGrounded && dropPressed)
         {
             StartCoroutine(DropThroughPlatform());
         }
+        dropPressed = false;
     }
 
     // ground detection using collision events
