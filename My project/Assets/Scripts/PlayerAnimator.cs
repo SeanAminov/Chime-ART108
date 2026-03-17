@@ -7,7 +7,6 @@ public class PlayerAnimator : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private float idleTimer;
-    private bool isIdle;
 
     void Start()
     {
@@ -17,28 +16,24 @@ public class PlayerAnimator : MonoBehaviour
 
     void Update()
     {
-        bool isMoving = Mathf.Abs(rb.linearVelocity.x) > 0.1f;
+        float speed = Mathf.Abs(rb.linearVelocity.x);
+        bool isMoving = speed > 0.1f;
 
         if (isMoving)
         {
-            // reset the timer whenever the player moves
+            // walking, reset the idle timer
             idleTimer = 0f;
-            if (isIdle)
-            {
-                isIdle = false;
-                animator.enabled = false;
-            }
+            animator.SetFloat("Speed", speed);
         }
         else
         {
-            // start counting up when the player stops
             idleTimer += Time.deltaTime;
 
-            if (idleTimer >= idleDelay && !isIdle)
-            {
-                isIdle = true;
-                animator.enabled = true;
-            }
+            // keep reporting movement until the idle delay kicks in
+            if (idleTimer < idleDelay)
+                animator.SetFloat("Speed", 0.2f);
+            else
+                animator.SetFloat("Speed", 0f);
         }
     }
 }
