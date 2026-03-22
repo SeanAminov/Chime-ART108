@@ -2,81 +2,128 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // stuff we can tweak in the inspector
+    // movement
     public float moveSpeed = 5f;
-    public float jumpForce = 12f;
+    public float sprintMultiplier = 1.6f;
     public float dropDuration = 0.25f;
+
+    // jumping
+    public float jumpForce = 12f;
+    public float maxJumpTime = 0.25f;
+    public float glideGravity = 0.5f;
 
     private Rigidbody2D rb;
     [HideInInspector] public bool isGrounded;
-    private bool facingRight = true;
+    [HideInInspector] public float facingDirection = 1f;
     private float moveInput;
     private bool jumpPressed;
+    private bool jumpHeld;
     private bool dropPressed;
+    private bool isJumping;
+    private float jumpTimer;
+    private float normalGravity;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        normalGravity = rb.gravityScale;
     }
 
     void Update()
     {
-        // read input every frame so we don't miss key presses
         moveInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             jumpPressed = true;
 
+        // track if jump key is being held
+        jumpHeld = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+
         if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             dropPressed = true;
 
-        // flip the sprite when changing direction
-        if (moveInput > 0 && !facingRight)
-            Flip();
-        else if (moveInput < 0 && facingRight)
-            Flip();
     }
 
     void FixedUpdate()
     {
-        // move the player
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        // sprint if holding shift
+        float speed = moveSpeed;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            speed *= sprintMultiplier;
 
-        // jumping
+        rb.linearVelocity = new Vector2(moveInput * speed, rb.linearVelocity.y);
+
+        // track which way the player is facing
+        if (moveInput != 0)
+            facingDirection = Mathf.Sign(moveInput);
+
+        // start a jump
         if (isGrounded && jumpPressed)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            isJumping = true;
+            jumpTimer = 0f;
         }
         jumpPressed = false;
 
+        // hold jump to go higher
+        if (isJumping && jumpHeld)
+        {
+            jumpTimer += Time.fixedDeltaTime;
+            if (jumpTimer < maxJumpTime)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+
+        // let go of jump early = stop rising
+        if (isJumping && !jumpHeld)
+            isJumping = false;
+
+        // glide: hold W while falling to slow descent
+        if (!isGrounded && !isJumping && jumpHeld && rb.linearVelocity.y < 0)
+        {
+            rb.gravityScale = glideGravity;
+        }
+        else
+        {
+            rb.gravityScale = normalGravity;
+        }
+
         // drop through platforms
         if (isGrounded && dropPressed)
-        {
             StartCoroutine(DropThroughPlatform());
-        }
         dropPressed = false;
     }
 
-    // ground detection using collision events
+    bool IsPlatform(GameObject obj)
+    {
+        return obj.CompareTag("Ground") ||
+               obj.CompareTag("OneWayPlatform") ||
+               obj.CompareTag("HiddenPlatform");
+    }
+
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Ground"))
+        if (IsPlatform(col.gameObject))
             isGrounded = true;
     }
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Ground"))
+        if (IsPlatform(col.gameObject))
             isGrounded = false;
     }
 
-    // briefly disables collision so the player falls through
     private System.Collections.IEnumerator DropThroughPlatform()
     {
         Collider2D playerCollider = GetComponent<Collider2D>();
 
-        // find nearby platforms using a small overlap check
         Collider2D[] platforms = Physics2D.OverlapBoxAll(
             transform.position, new Vector2(0.5f, 0.5f), 0f
         );
@@ -89,7 +136,6 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(dropDuration);
 
-        // turn collision back on
         foreach (Collider2D platform in platforms)
         {
             if (platform != null && platform.CompareTag("OneWayPlatform"))
@@ -97,12 +143,4 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // flips the sprite by inverting the x scale
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
-    }
 }

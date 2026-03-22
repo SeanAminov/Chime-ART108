@@ -7,6 +7,7 @@ public class PlayerAnimator : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private float idleTimer;
+    private float lastDirection = 1f;
 
     void Start()
     {
@@ -16,24 +17,29 @@ public class PlayerAnimator : MonoBehaviour
 
     void Update()
     {
-        float speed = Mathf.Abs(rb.linearVelocity.x);
-        bool isMoving = speed > 0.1f;
+        float hSpeed = rb.linearVelocity.x;
+        float absSpeed = Mathf.Abs(hSpeed);
+        bool isMoving = absSpeed > 0.1f;
+
+        if (isMoving)
+            lastDirection = Mathf.Sign(hSpeed);
 
         if (isMoving)
         {
-            // walking, reset the idle timer
             idleTimer = 0f;
-            animator.SetFloat("Speed", speed);
+            animator.SetFloat("Speed", absSpeed);
+            animator.SetFloat("Direction", Mathf.Sign(hSpeed));
         }
         else
         {
             idleTimer += Time.deltaTime;
 
-            // keep reporting movement until the idle delay kicks in
             if (idleTimer < idleDelay)
                 animator.SetFloat("Speed", 0.2f);
             else
                 animator.SetFloat("Speed", 0f);
+
+            animator.SetFloat("Direction", lastDirection);
         }
     }
 }

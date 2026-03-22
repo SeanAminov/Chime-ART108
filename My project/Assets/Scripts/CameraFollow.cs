@@ -5,6 +5,7 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public float smoothTime = 0.3f;
     public float lookAhead = 1.5f;
+    public float horizontalOffset = 2f;
     public float verticalSmoothTime = 0.5f;
     public float verticalOffset = 2f;
 
@@ -39,7 +40,7 @@ public class CameraFollow : MonoBehaviour
             ahead = Mathf.Sign(speed) * lookAhead * Mathf.Clamp01(Mathf.Abs(speed) / 3f);
         }
 
-        float desiredX = target.position.x + ahead;
+        float desiredX = target.position.x + ahead + horizontalOffset;
         currentX = Mathf.SmoothDamp(currentX, desiredX, ref xVelocity, smoothTime);
 
         // vertical: only update target when grounded so jumps don't move the camera
