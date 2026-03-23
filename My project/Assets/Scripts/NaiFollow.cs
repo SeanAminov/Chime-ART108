@@ -4,12 +4,13 @@ public class NaiFollow : MonoBehaviour
 {
     public Transform player;
     public float followSpeed = 8f;
-    public float leadDistance = 1.5f;
+    public float leadDistance = 2.5f;
     public float idleYOffset = 0f;
     public float walkYOffset = 0f;
 
     private Animator animator;
     private PlayerMovement playerMovement;
+    private bool playerIsMoving;
 
     void Start()
     {
@@ -23,23 +24,28 @@ public class NaiFollow : MonoBehaviour
         if (player == null || playerMovement == null) return;
 
         float facing = playerMovement.facingDirection;
-
-        // smooth X to lead in front of the player
         float targetX = player.position.x + (leadDistance * facing);
-        float newX = Mathf.Lerp(transform.position.x, targetX, followSpeed * Time.deltaTime);
 
-        // is she still catching up?
-        bool isMoving = Mathf.Abs(targetX - newX) > 0.05f;
+        // check if the player is actually moving
+        playerIsMoving = Mathf.Abs(playerMovement.GetComponent<Rigidbody2D>().linearVelocity.x) > 0.1f;
 
-        // just match the player's Y with the right offset
-        float yOff = isMoving ? walkYOffset : idleYOffset;
+        // lerp toward target, faster when far away
+        float dist = Mathf.Abs(targetX - transform.position.x);
+        float speed = followSpeed;
+        if (dist < 0.3f)
+            speed *= 4f;
+
+        float newX = Mathf.Lerp(transform.position.x, targetX, speed * Time.deltaTime);
+
+        // animate based on whether the PLAYER is moving, not nai's distance
+        float yOff = playerIsMoving ? walkYOffset : idleYOffset;
         float newY = player.position.y + yOff;
 
         transform.position = new Vector3(newX, newY, transform.position.z);
 
-        // animation
+        // animation matches player state
         if (animator != null)
-            animator.SetFloat("Speed", isMoving ? 1f : 0f);
+            animator.SetFloat("Speed", playerIsMoving ? 1f : 0f);
 
         // flip to match player direction
         Vector3 scale = transform.localScale;

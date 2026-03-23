@@ -25,9 +25,10 @@ public class PlayerHealth : MonoBehaviour
         // find the health text in the scene
         GameObject healthObj = GameObject.Find("HealthText");
         if (healthObj != null)
+        {
             healthText = healthObj.GetComponent<Text>();
-
-        UpdateUI();
+            healthObj.SetActive(false); // hidden until gameplay starts
+        }
     }
 
     void Update()

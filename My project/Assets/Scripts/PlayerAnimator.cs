@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    public float idleDelay = 1f;
+    public float idleDelay = 0.15f;
 
     private Animator animator;
     private Rigidbody2D rb;
