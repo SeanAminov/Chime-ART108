@@ -17,6 +17,10 @@ public class CameraFollow : MonoBehaviour
     private Rigidbody2D targetRb;
     private PlayerMovement playerMovement;
 
+    // screen shake
+    private float shakeDuration;
+    private float shakeIntensity;
+
     void Start()
     {
         if (target == null) return;
@@ -49,6 +53,22 @@ public class CameraFollow : MonoBehaviour
 
         currentY = Mathf.SmoothDamp(currentY, targetY, ref yVelocity, verticalSmoothTime);
 
-        transform.position = new Vector3(currentX, currentY, transform.position.z);
+        Vector3 pos = new Vector3(currentX, currentY, transform.position.z);
+
+        // add shake offset
+        if (shakeDuration > 0)
+        {
+            pos += (Vector3)Random.insideUnitCircle * shakeIntensity;
+            shakeDuration -= Time.deltaTime;
+        }
+
+        transform.position = pos;
+    }
+
+    // call this from other scripts to shake the camera
+    public void Shake(float duration, float intensity)
+    {
+        shakeDuration = duration;
+        shakeIntensity = intensity;
     }
 }

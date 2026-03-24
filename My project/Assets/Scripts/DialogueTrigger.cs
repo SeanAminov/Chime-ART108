@@ -7,15 +7,21 @@ public class DialogueTrigger : MonoBehaviour
     public DialogueBox dialogueBox;
     public bool requireKeyPress = true;  // press E to talk
     public bool triggerOnce = false;     // only plays once
+    public bool freezePlayer = true;    // freeze movement during dialogue
 
     private bool playerInRange;
     private bool hasTriggered;
 
     void Update()
     {
-        // if player is nearby and presses E, start talking
+        // only start if player is nearby, presses E, and no dialogue is already open
         if (requireKeyPress && playerInRange && Input.GetKeyDown(KeyCode.E))
+        {
+            if (dialogueBox != null && dialogueBox.gameObject.activeSelf)
+                return; // dialogue already playing, let DialogueBox handle the E press
+
             StartDialogue();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -51,6 +57,6 @@ public class DialogueTrigger : MonoBehaviour
             lines.Add(new DialogueLine(text, line.portrait, line.speaker));
         }
 
-        dialogueBox.ShowSequence(lines);
+        dialogueBox.ShowSequence(lines, null, freezePlayer);
     }
 }

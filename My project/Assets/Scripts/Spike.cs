@@ -7,9 +7,8 @@ public class Spike : MonoBehaviour
         PlayerHealth health = col.gameObject.GetComponent<PlayerHealth>();
         if (health != null)
         {
-            // knock the player upward and away from the spike
             Vector2 knockDir = (col.transform.position - transform.position).normalized;
-            knockDir.y = 1f; // always knock up a bit
+            knockDir.y = 1f;
             health.TakeDamage(knockDir);
         }
     }

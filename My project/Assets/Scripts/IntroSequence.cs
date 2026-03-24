@@ -12,7 +12,6 @@ public class IntroSequence : MonoBehaviour
     public GameObject namePrompt;
     public Sprite naiPortrait;
     public float fadeDuration = 2f;
-    public Dialogue introDialogue;  // optional: use a Dialogue asset instead of hardcoded
 
     // store the player's chosen name
     public static string playerName = "Kid";
@@ -35,11 +34,9 @@ public class IntroSequence : MonoBehaviour
             fadePanel.transform.SetAsFirstSibling();
         }
 
-        // hide name prompt
         if (namePrompt != null)
             namePrompt.SetActive(false);
 
-        // dialogue on top of fade
         if (dialogueBox != null)
             dialogueBox.transform.SetAsLastSibling();
 
@@ -50,14 +47,12 @@ public class IntroSequence : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        // nai's first line over black screen
-        var preLines = new List<DialogueLine>
+        // nai's first line over black (false = don't let dialoguebox touch freeze, we handle it)
+        bool waiting = true;
+        dialogueBox.ShowSequence(new List<DialogueLine>
         {
             new DialogueLine("Hey, wake up!!", naiPortrait, "Nai"),
-        };
-
-        bool waiting = true;
-        dialogueBox.ShowSequence(preLines, () => waiting = false);
+        }, () => waiting = false, false);
         while (waiting) yield return null;
 
         // ask for the player's name
@@ -78,23 +73,22 @@ public class IntroSequence : MonoBehaviour
             });
 
             while (!nameConfirmed) yield return null;
-
             namePrompt.SetActive(false);
         }
 
-        // nai calls the player by name
+        // nai calls them by name
         waiting = true;
         dialogueBox.ShowSequence(new List<DialogueLine>
         {
             new DialogueLine(playerName + "!!! Wake up!!", naiPortrait, "Nai"),
-        }, () => waiting = false);
+        }, () => waiting = false, false);
         while (waiting) yield return null;
 
-        // fade from black to game (eyes opening)
+        // fade from black (eyes opening)
         if (fadePanel != null)
             yield return StartCoroutine(FadeFromBlack());
 
-        // first line after waking up
+        // post-wakeup dialogue (don't freeze via dialoguebox, we handle it ourselves)
         waiting = true;
         dialogueBox.ShowSequence(new List<DialogueLine>
         {
@@ -102,17 +96,29 @@ public class IntroSequence : MonoBehaviour
                 "There you are!! Are you alright? You fell all the way to the bottom of the town, you know.",
                 naiPortrait, "Nai"
             ),
-        }, () => waiting = false);
+            new DialogueLine(
+                "Well, you look alright... come on!! We have to get back up now!!",
+                naiPortrait, "Nai"
+            ),
+            new DialogueLine(
+                "...it's WASD or arrow keys to move, " + playerName + ".",
+                naiPortrait, "Nai"
+            ),
+        }, () => waiting = false, false);
         while (waiting) yield return null;
 
-        // unfreeze player
+        // NOW unfreeze - all intro dialogue is done
         if (playerMovement != null)
             playerMovement.enabled = true;
 
-        // show health UI now that gameplay starts
+        // show health and coin UI
         GameObject healthObj = GameObject.Find("HealthText");
         if (healthObj != null)
             healthObj.SetActive(true);
+        GameObject coinObj = GameObject.Find("CoinText");
+        if (coinObj != null)
+            coinObj.SetActive(true);
+
     }
 
     IEnumerator FadeFromBlack()
