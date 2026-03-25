@@ -26,3 +26,13 @@ MemoryCaptures/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# =========================
+# Build output & archives
+# =========================
+*.zip
+*.tar.gz
+*[Bb]uild*/
+*[Bb]uild/
+New folder/
+WebGL/

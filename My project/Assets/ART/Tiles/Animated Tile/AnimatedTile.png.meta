@@ -109,7 +109,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -159,7 +159,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -188,12 +188,12 @@ TextureImporter:
       name: Tile_0
       rect:
         serializedVersion: 2
-        x: 79
-        y: 6519
-        width: 2202
-        height: 1362
+        x: 76
+        y: 6517
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -210,12 +210,12 @@ TextureImporter:
       name: Tile_1
       rect:
         serializedVersion: 2
-        x: 2479
-        y: 6519
-        width: 2202
-        height: 1362
+        x: 2473
+        y: 6517
+        width: 2215
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -232,12 +232,12 @@ TextureImporter:
       name: Tile_2
       rect:
         serializedVersion: 2
-        x: 4879
-        y: 6519
-        width: 2202
-        height: 1362
+        x: 4875
+        y: 6517
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -254,12 +254,12 @@ TextureImporter:
       name: Tile_3
       rect:
         serializedVersion: 2
-        x: 7279
-        y: 6519
-        width: 2202
-        height: 1362
+        x: 7277
+        y: 6517
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -276,12 +276,12 @@ TextureImporter:
       name: Tile_4
       rect:
         serializedVersion: 2
-        x: 9679
-        y: 6519
-        width: 2202
-        height: 1362
+        x: 9674
+        y: 6517
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -298,12 +298,12 @@ TextureImporter:
       name: Tile_5
       rect:
         serializedVersion: 2
-        x: 79
-        y: 4919
-        width: 2202
-        height: 1362
+        x: 76
+        y: 4917
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -320,12 +320,12 @@ TextureImporter:
       name: Tile_6
       rect:
         serializedVersion: 2
-        x: 2479
-        y: 4919
-        width: 2202
-        height: 1362
+        x: 2473
+        y: 4917
+        width: 2215
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -342,12 +342,12 @@ TextureImporter:
       name: Tile_7
       rect:
         serializedVersion: 2
-        x: 4879
-        y: 4919
-        width: 2202
-        height: 1362
+        x: 4875
+        y: 4917
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -364,12 +364,12 @@ TextureImporter:
       name: Tile_8
       rect:
         serializedVersion: 2
-        x: 7279
-        y: 4919
-        width: 2202
-        height: 1362
+        x: 7277
+        y: 4917
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -386,12 +386,12 @@ TextureImporter:
       name: Tile_9
       rect:
         serializedVersion: 2
-        x: 9679
-        y: 4919
-        width: 2202
-        height: 1362
+        x: 9674
+        y: 4917
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -408,12 +408,12 @@ TextureImporter:
       name: Tile_10
       rect:
         serializedVersion: 2
-        x: 79
-        y: 3319
-        width: 2202
-        height: 1362
+        x: 76
+        y: 3317
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -430,12 +430,12 @@ TextureImporter:
       name: Tile_11
       rect:
         serializedVersion: 2
-        x: 2479
-        y: 3319
-        width: 2202
-        height: 1362
+        x: 2473
+        y: 3317
+        width: 2215
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -452,12 +452,12 @@ TextureImporter:
       name: Tile_12
       rect:
         serializedVersion: 2
-        x: 4879
-        y: 3319
-        width: 2202
-        height: 1362
+        x: 4875
+        y: 3317
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -474,12 +474,12 @@ TextureImporter:
       name: Tile_13
       rect:
         serializedVersion: 2
-        x: 7279
-        y: 3319
-        width: 2202
-        height: 1362
+        x: 7277
+        y: 3317
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -496,12 +496,12 @@ TextureImporter:
       name: Tile_14
       rect:
         serializedVersion: 2
-        x: 9679
-        y: 3319
-        width: 2202
-        height: 1362
+        x: 9674
+        y: 3317
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -518,12 +518,12 @@ TextureImporter:
       name: Tile_15
       rect:
         serializedVersion: 2
-        x: 79
-        y: 1719
-        width: 2202
-        height: 1362
+        x: 76
+        y: 1717
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -540,12 +540,12 @@ TextureImporter:
       name: Tile_16
       rect:
         serializedVersion: 2
-        x: 2479
-        y: 1719
-        width: 2202
-        height: 1362
+        x: 2473
+        y: 1717
+        width: 2215
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -562,12 +562,12 @@ TextureImporter:
       name: Tile_17
       rect:
         serializedVersion: 2
-        x: 4879
-        y: 1719
-        width: 2202
-        height: 1362
+        x: 4875
+        y: 1717
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -584,12 +584,12 @@ TextureImporter:
       name: Tile_18
       rect:
         serializedVersion: 2
-        x: 7279
-        y: 1719
-        width: 2202
-        height: 1362
+        x: 7277
+        y: 1717
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -606,12 +606,12 @@ TextureImporter:
       name: Tile_19
       rect:
         serializedVersion: 2
-        x: 9679
-        y: 1719
-        width: 2202
-        height: 1362
+        x: 9674
+        y: 1717
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -628,12 +628,12 @@ TextureImporter:
       name: Tile_20
       rect:
         serializedVersion: 2
-        x: 79
-        y: 119
-        width: 2202
-        height: 1362
+        x: 76
+        y: 117
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -650,12 +650,12 @@ TextureImporter:
       name: Tile_21
       rect:
         serializedVersion: 2
-        x: 2479
-        y: 119
-        width: 2202
-        height: 1362
+        x: 2473
+        y: 117
+        width: 2215
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -672,12 +672,12 @@ TextureImporter:
       name: Tile_22
       rect:
         serializedVersion: 2
-        x: 4879
-        y: 119
-        width: 2202
-        height: 1362
+        x: 4875
+        y: 117
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -694,12 +694,12 @@ TextureImporter:
       name: Tile_23
       rect:
         serializedVersion: 2
-        x: 7279
-        y: 119
-        width: 2202
-        height: 1362
+        x: 7277
+        y: 117
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -716,12 +716,12 @@ TextureImporter:
       name: Tile_24
       rect:
         serializedVersion: 2
-        x: 9679
-        y: 119
-        width: 2202
-        height: 1362
+        x: 9674
+        y: 117
+        width: 2209
+        height: 1366
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -738,7 +738,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d285c92776cb26f45822682df7a153d8
     internalID: 0
     vertices: []
     indices: 
@@ -746,7 +746,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Tile_0: -9163426285224168042
       Tile_1: 9046047427341356226
