@@ -9,6 +9,12 @@ public class CameraFollow : MonoBehaviour
     public float verticalSmoothTime = 0.5f;
     public float verticalOffset = 2f;
 
+    [Header("Free Follow (glide sections)")]
+    public float freeSmoothTime = 0.1f;
+    public float freeVerticalSmoothTime = 0.1f;
+
+    [HideInInspector] public bool freeFollow;
+
     private float currentX;
     private float currentY;
     private float xVelocity;
@@ -17,7 +23,6 @@ public class CameraFollow : MonoBehaviour
     private Rigidbody2D targetRb;
     private PlayerMovement playerMovement;
 
-    // screen shake
     private float shakeDuration;
     private float shakeIntensity;
 
@@ -36,7 +41,6 @@ public class CameraFollow : MonoBehaviour
     {
         if (target == null) return;
 
-        // horizontal: smooth follow with lookahead
         float ahead = 0f;
         if (targetRb != null)
         {
@@ -44,18 +48,19 @@ public class CameraFollow : MonoBehaviour
             ahead = Mathf.Sign(speed) * lookAhead * Mathf.Clamp01(Mathf.Abs(speed) / 3f);
         }
 
-        float desiredX = target.position.x + ahead + horizontalOffset;
-        currentX = Mathf.SmoothDamp(currentX, desiredX, ref xVelocity, smoothTime);
+        float hSmooth = freeFollow ? freeSmoothTime : smoothTime;
+        float vSmooth = freeFollow ? freeVerticalSmoothTime : verticalSmoothTime;
 
-        // vertical: only update target when grounded so jumps don't move the camera
-        if (playerMovement != null && playerMovement.isGrounded)
+        float desiredX = target.position.x + ahead + horizontalOffset;
+        currentX = Mathf.SmoothDamp(currentX, desiredX, ref xVelocity, hSmooth);
+
+        if (freeFollow || (playerMovement != null && playerMovement.isGrounded))
             targetY = target.position.y + verticalOffset;
 
-        currentY = Mathf.SmoothDamp(currentY, targetY, ref yVelocity, verticalSmoothTime);
+        currentY = Mathf.SmoothDamp(currentY, targetY, ref yVelocity, vSmooth);
 
         Vector3 pos = new Vector3(currentX, currentY, transform.position.z);
 
-        // add shake offset
         if (shakeDuration > 0)
         {
             pos += (Vector3)Random.insideUnitCircle * shakeIntensity;
@@ -65,7 +70,6 @@ public class CameraFollow : MonoBehaviour
         transform.position = pos;
     }
 
-    // call this from other scripts to shake the camera
     public void Shake(float duration, float intensity)
     {
         shakeDuration = duration;

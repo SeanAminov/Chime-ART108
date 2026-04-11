@@ -22,4 +22,4 @@ MonoBehaviour:
   - speaker: Nai
     portrait: {fileID: -2997249256263405419, guid: 70cd6affe1cd26347b2a33cc24e58132, type: 3}
     text: It could be because of the fall. We won't be able to fully fix it until
-      we get back up, but for now, hold Space to borrow my senses temporarily!
+      we get back up, but for now, press E to borrow my senses temporarily! Press E again to turn it off.

@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    public int order = 1; // set in inspector: 1, 2, 3, etc.
-    public Color activeColor = Color.green;
-    public Color inactiveColor = Color.gray;
+    public int order = 1;
+    [Range(0f, 1f)]
+    public float inactiveAlpha = 0.4f;
 
-    // tracks the highest checkpoint reached
-    public static int currentOrder = 0;
+    public static int currentOrder;
     public static Vector3 lastCheckpoint;
     public static bool hasCheckpoint;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics()
+    {
+        currentOrder = 0;
+        lastCheckpoint = Vector3.zero;
+        hasCheckpoint = false;
+    }
 
     private SpriteRenderer sr;
     private bool activated;
@@ -18,7 +25,11 @@ public class Checkpoint : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         if (sr != null)
-            sr.color = inactiveColor;
+        {
+            Color c = sr.color;
+            c.a = inactiveAlpha;
+            sr.color = c;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -26,7 +37,6 @@ public class Checkpoint : MonoBehaviour
         if (activated) return;
         if (!other.CompareTag("Player")) return;
 
-        // only save if this checkpoint is further than the current one
         if (order <= currentOrder) return;
 
         activated = true;
@@ -35,6 +45,10 @@ public class Checkpoint : MonoBehaviour
         lastCheckpoint = transform.position;
 
         if (sr != null)
-            sr.color = activeColor;
+        {
+            Color c = sr.color;
+            c.a = 1f;
+            sr.color = c;
+        }
     }
 }

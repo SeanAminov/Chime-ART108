@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class PlayerHealth : MonoBehaviour
@@ -10,15 +9,22 @@ public class PlayerHealth : MonoBehaviour
     public float knockbackForce = 5f;
 
     [Header("Coins")]
-    public int coinsForHP = 10; // collect this many coins to get 1 HP
+    public int coinsForHP = 10;
     private int coinCount;
 
     [Header("Healing")]
-    public float healHoldTime = 2f; // hold F for this long to heal
-    public ParticleSystem healEffect; // assign in inspector or auto-created
+    public float healHoldTime = 2f;
+    public ParticleSystem healEffect;
     private float healTimer;
     private bool isHealing;
     private float healCooldown;
+
+    [Header("References")]
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI coinText;
+    public CameraFollow cameraFollow;
+    public DialogueBox dialogueBox;
+    public NaiFollow nai;
 
     private int currentHealth;
     private bool invincible;
@@ -28,58 +34,17 @@ public class PlayerHealth : MonoBehaviour
     private Vector3 startPosition;
     private bool hasShownHealHint;
 
-    // UI - supports both TMP and legacy Text
-    private TextMeshProUGUI healthText;
-    private TextMeshProUGUI coinText;
-    private Text healthTextLegacy;
-    private Text coinTextLegacy;
-
     void Start()
     {
         currentHealth = maxHealth;
         startPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    // find UI elements including inactive ones
-    void FindUI()
-    {
-        if (healthText != null && coinText != null) return;
-        if (healthTextLegacy != null && coinTextLegacy != null) return;
-
-        // try TMP first
-        TextMeshProUGUI[] allTMP = FindObjectsOfType<TextMeshProUGUI>(true);
-        foreach (var tmp in allTMP)
-        {
-            if (tmp.gameObject.name == "HealthText")
-                healthText = tmp;
-            else if (tmp.gameObject.name == "CoinText")
-                coinText = tmp;
-        }
-
-        // also try legacy Text
-        Text[] allLegacy = FindObjectsOfType<Text>(true);
-        foreach (var t in allLegacy)
-        {
-            if (t.gameObject.name == "HealthText" && healthText == null)
-                healthTextLegacy = t;
-            else if (t.gameObject.name == "CoinText" && coinText == null)
-                coinTextLegacy = t;
-        }
-
-        bool found = healthText != null || coinText != null ||
-                     healthTextLegacy != null || coinTextLegacy != null;
-        if (found)
-            UpdateUI();
+        UpdateUI();
     }
 
     void Update()
     {
-        // keep trying to find UI until we have it
-        FindUI();
-
-        // invincibility blink
         if (invincible)
         {
             invincibleTimer -= Time.deltaTime;
@@ -92,17 +57,14 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
-        // cooldown after a heal so you can't just hold F forever
         if (healCooldown > 0)
         {
             healCooldown -= Time.deltaTime;
             healTimer = 0f;
             isHealing = false;
         }
-        // hold F to heal (hollow knight style: hold, heal once, forced out)
-        else if (Input.GetKeyDown(KeyCode.F) && currentHealth < maxHealth && coinCount >= coinsForHP && !isHealing)
+        else if (Input.GetKeyDown(KeyCode.R) && currentHealth < maxHealth && coinCount >= coinsForHP && !isHealing)
         {
-            // start the heal charge
             isHealing = true;
             healTimer = 0f;
             if (healEffect != null) healEffect.Play();
@@ -110,9 +72,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (isHealing)
         {
-            if (!Input.GetKey(KeyCode.F))
+            if (!Input.GetKey(KeyCode.R))
             {
-                // let go too early, cancel
                 isHealing = false;
                 healTimer = 0f;
                 if (healEffect != null) healEffect.Stop();
@@ -121,17 +82,14 @@ public class PlayerHealth : MonoBehaviour
             {
                 healTimer += Time.deltaTime;
 
-                // subtle shake that builds as the heal charges
-                CameraFollow cam = FindObjectOfType<CameraFollow>();
-                if (cam != null)
+                if (cameraFollow != null)
                 {
                     float intensity = Mathf.Lerp(0.01f, 0.06f, healTimer / healHoldTime);
-                    cam.Shake(0.1f, intensity);
+                    cameraFollow.Shake(0.1f, intensity);
                 }
 
                 if (healTimer >= healHoldTime)
                 {
-                    // heal completes, spend coins, force out
                     coinCount -= coinsForHP;
                     Heal(1);
                     isHealing = false;
@@ -154,13 +112,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         UpdateUI();
 
-        // little camera shake when healing
-        CameraFollow cam = FindObjectOfType<CameraFollow>();
-        if (cam != null)
-            cam.Shake(0.3f, 0.05f);
+        if (cameraFollow != null)
+            cameraFollow.Shake(0.3f, 0.05f);
     }
 
-    // called by rokurokubi to gift health
     public void GiftHealth()
     {
         currentHealth = maxHealth;
@@ -185,7 +140,6 @@ public class PlayerHealth : MonoBehaviour
         invincible = true;
         invincibleTimer = invincibleTime;
 
-        // nai reminds you about healing after taking a hit
         if (!hasShownHealHint && currentHealth > 0)
         {
             hasShownHealHint = true;
@@ -196,29 +150,23 @@ public class PlayerHealth : MonoBehaviour
             Die();
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
-        string hpStr = "HP: " + currentHealth + " / " + maxHealth;
-        string coinStr = "Coins: " + coinCount;
-
-        if (healthText != null) healthText.text = hpStr;
-        if (healthTextLegacy != null) healthTextLegacy.text = hpStr;
-        if (coinText != null) coinText.text = coinStr;
-        if (coinTextLegacy != null) coinTextLegacy.text = coinStr;
+        if (healthText != null)
+            healthText.text = string.Format("HP: {0} / {1}", currentHealth, maxHealth);
+        if (coinText != null)
+            coinText.text = string.Format("Coins: {0}", coinCount);
     }
 
     void ShowHealReminder()
     {
-        DialogueBox db = FindObjectOfType<DialogueBox>(true);
-        if (db == null || db.gameObject.activeSelf) return;
+        if (dialogueBox == null || dialogueBox.gameObject.activeSelf) return;
 
-        // find nai's portrait for the dialogue
         Sprite naiSprite = null;
-        NaiFollow nai = FindObjectOfType<NaiFollow>();
         if (nai != null)
             naiSprite = nai.GetComponent<SpriteRenderer>()?.sprite;
 
-        db.Show("Hold F to focus and recover your health!", naiSprite, "Nai", false);
+        dialogueBox.Show("Hold R to focus and recover your health!", naiSprite, "Nai", false);
     }
 
     public void InstantKill()
@@ -235,7 +183,8 @@ public class PlayerHealth : MonoBehaviour
 
         rb.linearVelocity = Vector2.zero;
         currentHealth = maxHealth;
-        invincible = false;
+        invincible = true;
+        invincibleTimer = invincibleTime;
         spriteRenderer.enabled = true;
         UpdateUI();
     }

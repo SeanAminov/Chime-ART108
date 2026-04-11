@@ -10,12 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b67dc16dc9a1992469ff298a5deb6645, type: 3}
-  m_Name: Demo_NPC
+  m_Name: Level1_NaiSummit
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
   lines:
-  - speaker: Stranger
-    portrait: {fileID: -47630888937730442, guid: c7a19cbbf08b1bc4e8841b56d6caf9e9, type: 3}
-    text: Hey there, {name}. You look lost.
-  - speaker: Stranger
-    portrait: {fileID: -47630888937730442, guid: c7a19cbbf08b1bc4e8841b56d6caf9e9, type: 3}
-    text: The way up is through the old bridges. Be careful though.
+  - speaker: Nai
+    portrait: {fileID: -2997249256263405419, guid: 70cd6affe1cd26347b2a33cc24e58132, type: 3}
+    text: Whew, that was scary.

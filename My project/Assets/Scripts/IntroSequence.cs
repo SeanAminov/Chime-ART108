@@ -12,21 +12,15 @@ public class IntroSequence : MonoBehaviour
     public GameObject namePrompt;
     public Sprite naiPortrait;
     public float fadeDuration = 2f;
+    public PlayerMovement playerMovement;
 
-    // store the player's chosen name
     public static string playerName = "Kid";
-
-    private PlayerMovement playerMovement;
 
     void OnEnable()
     {
-        playerMovement = FindObjectOfType<PlayerMovement>();
-
-        // freeze player during intro
         if (playerMovement != null)
             playerMovement.enabled = false;
 
-        // black screen
         if (fadePanel != null)
         {
             fadePanel.gameObject.SetActive(true);
@@ -47,7 +41,6 @@ public class IntroSequence : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        // nai's first line over black (false = don't let dialoguebox touch freeze, we handle it)
         bool waiting = true;
         dialogueBox.ShowSequence(new List<DialogueLine>
         {
@@ -55,7 +48,6 @@ public class IntroSequence : MonoBehaviour
         }, () => waiting = false, false);
         while (waiting) yield return null;
 
-        // ask for the player's name
         if (namePrompt != null)
         {
             namePrompt.SetActive(true);
@@ -76,7 +68,6 @@ public class IntroSequence : MonoBehaviour
             namePrompt.SetActive(false);
         }
 
-        // nai calls them by name
         waiting = true;
         dialogueBox.ShowSequence(new List<DialogueLine>
         {
@@ -84,11 +75,9 @@ public class IntroSequence : MonoBehaviour
         }, () => waiting = false, false);
         while (waiting) yield return null;
 
-        // fade from black (eyes opening)
         if (fadePanel != null)
             yield return StartCoroutine(FadeFromBlack());
 
-        // post-wakeup dialogue (don't freeze via dialoguebox, we handle it ourselves)
         waiting = true;
         dialogueBox.ShowSequence(new List<DialogueLine>
         {
@@ -101,24 +90,14 @@ public class IntroSequence : MonoBehaviour
                 naiPortrait, "Nai"
             ),
             new DialogueLine(
-                "...it's WASD or arrow keys to move, " + playerName + ".",
+                "...it's WASD to move and Space to jump, " + playerName + ".",
                 naiPortrait, "Nai"
             ),
         }, () => waiting = false, false);
         while (waiting) yield return null;
 
-        // NOW unfreeze - all intro dialogue is done
         if (playerMovement != null)
             playerMovement.enabled = true;
-
-        // show health and coin UI
-        GameObject healthObj = GameObject.Find("HealthText");
-        if (healthObj != null)
-            healthObj.SetActive(true);
-        GameObject coinObj = GameObject.Find("CoinText");
-        if (coinObj != null)
-            coinObj.SetActive(true);
-
     }
 
     IEnumerator FadeFromBlack()

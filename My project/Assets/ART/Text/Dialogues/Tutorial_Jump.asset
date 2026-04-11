@@ -15,4 +15,4 @@ MonoBehaviour:
   lines:
   - speaker: Nai
     portrait: {fileID: -2997249256263405419, guid: 70cd6affe1cd26347b2a33cc24e58132, type: 3}
-    text: Press W or Up to jump!
+    text: Press W or Space to jump!

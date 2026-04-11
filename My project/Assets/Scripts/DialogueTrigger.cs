@@ -5,20 +5,20 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
     public DialogueBox dialogueBox;
-    public bool requireKeyPress = true;  // press E to talk
-    public bool triggerOnce = false;     // only plays once
-    public bool freezePlayer = true;    // freeze movement during dialogue
+    public bool requireKeyPress = true;
+    public bool triggerOnce = false;
+    public bool freezePlayer = true;
+    public bool showWaterUI = false;
 
     private bool playerInRange;
     private bool hasTriggered;
 
     void Update()
     {
-        // only start if player is nearby, presses E, and no dialogue is already open
-        if (requireKeyPress && playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (requireKeyPress && playerInRange && Input.GetKeyDown(KeyCode.F))
         {
             if (dialogueBox != null && dialogueBox.gameObject.activeSelf)
-                return; // dialogue already playing, let DialogueBox handle the E press
+                return;
 
             StartDialogue();
         }
@@ -30,7 +30,6 @@ public class DialogueTrigger : MonoBehaviour
 
         playerInRange = true;
 
-        // auto-trigger zones (no key press needed)
         if (!requireKeyPress)
             StartDialogue();
     }
@@ -48,11 +47,12 @@ public class DialogueTrigger : MonoBehaviour
 
         hasTriggered = true;
 
-        // convert to DialogueLine list
+        if (showWaterUI)
+            WaterDroplet.ShowUI();
+
         var lines = new List<DialogueLine>();
         foreach (var line in dialogue.lines)
         {
-            // swap in the player's name if text has {name}
             string text = line.text.Replace("{name}", IntroSequence.playerName);
             lines.Add(new DialogueLine(text, line.portrait, line.speaker));
         }

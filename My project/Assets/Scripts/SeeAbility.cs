@@ -1,30 +1,47 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SeeAbility : MonoBehaviour
 {
-    public LayerMask hiddenLayer;
+    [Header("Cooldown")]
+    public float maxEnergy = 10f;
+    public float rechargeRate = 1f;
+    public float drainRate = 1f;
+    public Slider energySlider;
+
+    [Header("Hidden Platforms")]
+    public GameObject[] hiddenPlatforms;
 
     [Header("Effects")]
-    public ParticleSystem sparkles; // assign in inspector
+    public ParticleSystem sparkles;
     public Color pulseColor = new Color(0.5f, 0.8f, 1f, 0.6f);
     public float pulseSpeed = 3f;
     public float maxPulseSize = 3f;
 
     private Collider2D playerCollider;
     private bool seeing;
+    private float currentEnergy;
 
-    // pulse ring created at runtime (just a simple circle)
+    private Renderer[] cachedRenderers;
+    private Collider2D[] cachedColliders;
+
     private GameObject pulseRing;
     private SpriteRenderer pulseRenderer;
 
     void Start()
     {
         playerCollider = GetComponent<Collider2D>();
+        currentEnergy = maxEnergy;
 
-        // hide all hidden platforms at the start of the game
+        CacheHiddenComponents();
         ShowHiddenPlatforms(false);
 
-        // create a simple pulse ring
+        if (energySlider != null)
+        {
+            energySlider.maxValue = maxEnergy;
+            energySlider.value = maxEnergy;
+        }
+
         pulseRing = new GameObject("PulseRing");
         pulseRing.transform.SetParent(transform);
         pulseRing.transform.localPosition = Vector3.zero;
@@ -36,49 +53,99 @@ public class SeeAbility : MonoBehaviour
         pulseRing.SetActive(false);
     }
 
+    void CacheHiddenComponents()
+    {
+        if (hiddenPlatforms == null)
+        {
+            cachedRenderers = new Renderer[0];
+            cachedColliders = new Collider2D[0];
+            return;
+        }
+
+        int rCount = 0, cCount = 0;
+        foreach (var p in hiddenPlatforms)
+        {
+            if (p == null) continue;
+            rCount += p.GetComponentsInChildren<Renderer>(true).Length;
+            cCount += p.GetComponentsInChildren<Collider2D>(true).Length;
+        }
+
+        cachedRenderers = new Renderer[rCount];
+        cachedColliders = new Collider2D[cCount];
+
+        int ri = 0, ci = 0;
+        foreach (var p in hiddenPlatforms)
+        {
+            if (p == null) continue;
+            foreach (var r in p.GetComponentsInChildren<Renderer>(true))
+                cachedRenderers[ri++] = r;
+            foreach (var c in p.GetComponentsInChildren<Collider2D>(true))
+                cachedColliders[ci++] = c;
+        }
+    }
+
     void Update()
     {
-        bool spaceHeld = Input.GetKey(KeyCode.Space);
+        if (Input.GetKeyDown(KeyCode.E) && (seeing || currentEnergy >= maxEnergy * 0.1f))
+            seeing = !seeing;
 
-        if (spaceHeld && !seeing)
+        if (seeing && !pulseRing.activeSelf)
         {
-            seeing = true;
             ShowHiddenPlatforms(true);
+            Spike.SetAllHiddenVisible(true);
             pulseRing.SetActive(true);
             if (sparkles != null) sparkles.Play();
         }
-        else if (!spaceHeld && seeing)
+        else if (!seeing && pulseRing.activeSelf)
         {
-            seeing = false;
             ShowHiddenPlatforms(false);
+            Spike.SetAllHiddenVisible(false);
             pulseRing.SetActive(false);
             if (sparkles != null) sparkles.Stop();
         }
 
-        // animate the pulse expanding outward
+        if (seeing)
+        {
+            currentEnergy -= drainRate * Time.deltaTime;
+            if (currentEnergy <= 0)
+            {
+                currentEnergy = 0;
+                seeing = false;
+            }
+        }
+        else
+        {
+            currentEnergy += rechargeRate * Time.deltaTime;
+            if (currentEnergy >= maxEnergy)
+                currentEnergy = maxEnergy;
+        }
+
+        if (energySlider != null)
+            energySlider.value = currentEnergy;
+
         if (seeing && pulseRing.activeSelf)
         {
             float scale = Mathf.PingPong(Time.time * pulseSpeed, maxPulseSize) + 0.5f;
             pulseRing.transform.localScale = new Vector3(scale, scale, 1f);
 
             float alpha = Mathf.Lerp(0.5f, 0f, scale / maxPulseSize);
-            pulseRenderer.color = new Color(pulseColor.r, pulseColor.g, pulseColor.b, alpha);
+            Color c = pulseColor;
+            c.a = alpha;
+            pulseRenderer.color = c;
         }
     }
 
     void ShowHiddenPlatforms(bool visible)
     {
-        GameObject[] hiddenPlatforms = GameObject.FindGameObjectsWithTag("HiddenPlatform");
-
-        foreach (GameObject platform in hiddenPlatforms)
+        if (cachedRenderers != null)
         {
-            SpriteRenderer sr = platform.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.enabled = visible;
-
-            Collider2D col = platform.GetComponent<Collider2D>();
-            if (col != null)
-                col.enabled = visible;
+            for (int i = 0; i < cachedRenderers.Length; i++)
+                if (cachedRenderers[i] != null) cachedRenderers[i].enabled = visible;
+        }
+        if (cachedColliders != null)
+        {
+            for (int i = 0; i < cachedColliders.Length; i++)
+                if (cachedColliders[i] != null) cachedColliders[i].enabled = visible;
         }
     }
 
@@ -91,13 +158,17 @@ public class SeeAbility : MonoBehaviour
         float center = size / 2f;
         float outerRadius = size / 2f;
         float innerRadius = outerRadius - 4f;
+        float outerSq = outerRadius * outerRadius;
+        float innerSq = innerRadius * innerRadius;
 
         for (int x = 0; x < size; x++)
         {
+            float dx = x - center;
             for (int y = 0; y < size; y++)
             {
-                float dist = Vector2.Distance(new Vector2(x, y), new Vector2(center, center));
-                if (dist < outerRadius && dist > innerRadius)
+                float dy = y - center;
+                float distSq = dx * dx + dy * dy;
+                if (distSq < outerSq && distSq > innerSq)
                     tex.SetPixel(x, y, Color.white);
                 else
                     tex.SetPixel(x, y, Color.clear);

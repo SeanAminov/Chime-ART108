@@ -10,13 +10,17 @@ public class NaiFollow : MonoBehaviour
 
     private Animator animator;
     private PlayerMovement playerMovement;
+    private Rigidbody2D playerRb;
     private bool playerIsMoving;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         if (player != null)
+        {
             playerMovement = player.GetComponent<PlayerMovement>();
+            playerRb = player.GetComponent<Rigidbody2D>();
+        }
     }
 
     void Update()
@@ -26,10 +30,9 @@ public class NaiFollow : MonoBehaviour
         float facing = playerMovement.facingDirection;
         float targetX = player.position.x + (leadDistance * facing);
 
-        // check if the player is actually moving
-        playerIsMoving = Mathf.Abs(playerMovement.GetComponent<Rigidbody2D>().linearVelocity.x) > 0.1f;
+        playerIsMoving = playerRb != null && Mathf.Abs(playerRb.linearVelocity.x) > 0.1f;
 
-        // lerp toward target, faster when far away
+        // faster when far, snappier when close
         float dist = Mathf.Abs(targetX - transform.position.x);
         float speed = followSpeed;
         if (dist < 0.3f)
@@ -37,13 +40,11 @@ public class NaiFollow : MonoBehaviour
 
         float newX = Mathf.Lerp(transform.position.x, targetX, speed * Time.deltaTime);
 
-        // animate based on whether the PLAYER is moving, not nai's distance
         float yOff = playerIsMoving ? walkYOffset : idleYOffset;
         float newY = player.position.y + yOff;
 
         transform.position = new Vector3(newX, newY, transform.position.z);
 
-        // animation matches player state
         if (animator != null)
             animator.SetFloat("Speed", playerIsMoving ? 1f : 0f);
 

@@ -15,7 +15,6 @@ public class ParallaxBackground : MonoBehaviour
 
     void LateUpdate()
     {
-        // move the background by a fraction of however the camera moved
         Vector2 delta = (Vector2)cam.position - lastCamPos;
         transform.position += new Vector3(delta.x * parallaxSpeed, delta.y * parallaxSpeed, 0f);
         lastCamPos = cam.position;

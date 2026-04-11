@@ -88,7 +88,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -102,7 +102,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 1362
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,7 +123,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -136,14 +136,14 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 16384
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -151,12 +151,12 @@ TextureImporter:
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -167,12 +167,12 @@ TextureImporter:
       name: RokuRoku_0
       rect:
         serializedVersion: 2
-        x: 763
-        y: 6195
-        width: 762
-        height: 1762
+        x: 0
+        y: 6040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -189,12 +189,12 @@ TextureImporter:
       name: RokuRoku_1
       rect:
         serializedVersion: 2
-        x: 2811
-        y: 6195
-        width: 762
-        height: 1762
+        x: 2000
+        y: 6040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -211,12 +211,12 @@ TextureImporter:
       name: RokuRoku_2
       rect:
         serializedVersion: 2
-        x: 4859
-        y: 6195
-        width: 762
-        height: 1722
+        x: 4000
+        y: 6040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -233,12 +233,12 @@ TextureImporter:
       name: RokuRoku_3
       rect:
         serializedVersion: 2
-        x: 6867
-        y: 6195
-        width: 762
-        height: 1722
+        x: 6000
+        y: 6040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -255,12 +255,12 @@ TextureImporter:
       name: RokuRoku_4
       rect:
         serializedVersion: 2
-        x: 8875
-        y: 6195
-        width: 802
-        height: 1722
+        x: 8000
+        y: 6040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -277,12 +277,12 @@ TextureImporter:
       name: RokuRoku_5
       rect:
         serializedVersion: 2
-        x: 843
-        y: 4187
-        width: 842
-        height: 1762
+        x: 0
+        y: 4040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -299,12 +299,12 @@ TextureImporter:
       name: RokuRoku_6
       rect:
         serializedVersion: 2
-        x: 2851
-        y: 4187
-        width: 882
-        height: 1762
+        x: 2000
+        y: 4040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -321,12 +321,12 @@ TextureImporter:
       name: RokuRoku_7
       rect:
         serializedVersion: 2
-        x: 4859
-        y: 4187
-        width: 882
-        height: 1762
+        x: 4000
+        y: 4040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -343,12 +343,12 @@ TextureImporter:
       name: RokuRoku_8
       rect:
         serializedVersion: 2
-        x: 6867
-        y: 4187
-        width: 882
-        height: 1762
+        x: 6000
+        y: 4040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -365,12 +365,12 @@ TextureImporter:
       name: RokuRoku_9
       rect:
         serializedVersion: 2
-        x: 8875
-        y: 4187
-        width: 882
-        height: 1802
+        x: 8000
+        y: 4040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -387,12 +387,12 @@ TextureImporter:
       name: RokuRoku_10
       rect:
         serializedVersion: 2
-        x: 843
-        y: 2179
-        width: 842
-        height: 1802
+        x: 0
+        y: 2040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -409,12 +409,12 @@ TextureImporter:
       name: RokuRoku_11
       rect:
         serializedVersion: 2
-        x: 2851
-        y: 2179
-        width: 842
-        height: 1802
+        x: 2000
+        y: 2040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -431,12 +431,12 @@ TextureImporter:
       name: RokuRoku_12
       rect:
         serializedVersion: 2
-        x: 4859
-        y: 2179
-        width: 802
-        height: 1802
+        x: 4000
+        y: 2040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -453,12 +453,12 @@ TextureImporter:
       name: RokuRoku_13
       rect:
         serializedVersion: 2
-        x: 6827
-        y: 2179
-        width: 762
-        height: 1762
+        x: 6000
+        y: 2040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -475,12 +475,12 @@ TextureImporter:
       name: RokuRoku_14
       rect:
         serializedVersion: 2
-        x: 8835
-        y: 2179
-        width: 762
-        height: 1762
+        x: 8000
+        y: 2040
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -497,12 +497,12 @@ TextureImporter:
       name: RokuRoku_15
       rect:
         serializedVersion: 2
-        x: 763
-        y: 171
-        width: 762
-        height: 1762
+        x: 0
+        y: 40
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -519,12 +519,12 @@ TextureImporter:
       name: RokuRoku_16
       rect:
         serializedVersion: 2
-        x: 2731
-        y: 171
-        width: 762
-        height: 1762
+        x: 2000
+        y: 40
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -541,12 +541,12 @@ TextureImporter:
       name: RokuRoku_17
       rect:
         serializedVersion: 2
-        x: 4739
-        y: 171
-        width: 762
-        height: 1802
+        x: 4000
+        y: 40
+        width: 2000
+        height: 2000
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -563,7 +563,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1f393f8c77412e64f8835641cacca28f
     internalID: 0
     vertices: []
     indices: 
@@ -571,7 +571,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":2000.0,"y":2000.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       RokuRoku_0: -47630888937730442
       RokuRoku_1: -6862636339318462945

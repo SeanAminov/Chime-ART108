@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67dc16dc9a1992469ff298a5deb6645, type: 3}
+  m_Name: Level1_KappaDried
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  lines:
+  - speaker: Kappa
+    portrait: {fileID: -8602144430665626385, guid: 4e7cf860bf46f4340aefa20455e25dae, type: 3}
+    text: You... you can still move. That must be nice.
+  - speaker: Kappa
+    portrait: {fileID: -8602144430665626385, guid: 4e7cf860bf46f4340aefa20455e25dae, type: 3}
+    text: The water in my sara dried out. Without it, I'm stuck here. Useless.
+  - speaker: Kappa
+    portrait: {fileID: -8602144430665626385, guid: 4e7cf860bf46f4340aefa20455e25dae, type: 3}
+    text: There are water droplets scattered through the ruins above. If you could
+      find 6 of them...
+  - speaker: Kappa
+    portrait: {fileID: -8602144430665626385, guid: 4e7cf860bf46f4340aefa20455e25dae, type: 3}
+    text: I'll drag myself to the top. Meet me at the bridge. Please.
+  - speaker: Nai
+    portrait: {fileID: -2997249256263405419, guid: 70cd6affe1cd26347b2a33cc24e58132, type: 3}
+    text: This whole place used to be flowing with water. Something went wrong here.
+  - speaker: Nai
+    portrait: {fileID: -2997249256263405419, guid: 70cd6affe1cd26347b2a33cc24e58132, type: 3}
+    text: Look, {name}. There's a droplet just ahead. Grab it so you know what to
+      look for.

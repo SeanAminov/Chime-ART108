@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    // simple spinning effect
     public float bobSpeed = 2f;
     public float bobHeight = 0.2f;
 
@@ -15,7 +14,6 @@ public class Coin : MonoBehaviour
 
     void Update()
     {
-        // gentle float up and down
         float newY = startPos.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
         transform.position = new Vector3(startPos.x, newY, startPos.z);
     }

@@ -12,7 +12,7 @@ public class DialogueBox : MonoBehaviour
     public TextMeshProUGUI speakerName;
     public TextMeshProUGUI advanceHint;
     public float typeSpeed = 0.04f;
-    private bool shownHintOnce;
+    public PlayerMovement playerMovement;
 
     private bool isTyping;
     private bool skipTyping;
@@ -21,20 +21,14 @@ public class DialogueBox : MonoBehaviour
     private bool waitingForAdvance;
     private bool isFrozen;
 
-    // callback when current sequence is done
     public System.Action onDialogueEnd;
 
-    // pending dialogues that came in while we were busy
     private Queue<PendingDialogue> pendingQueue = new Queue<PendingDialogue>();
 
-    private PlayerMovement playerMovement;
-
-    // check if dialogue is currently active
     public bool IsActive => gameObject.activeSelf;
 
     void Start()
     {
-        playerMovement = FindObjectOfType<PlayerMovement>();
         gameObject.SetActive(false);
     }
 
@@ -55,7 +49,7 @@ public class DialogueBox : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Return))
         {
             if (isTyping)
             {
@@ -69,17 +63,14 @@ public class DialogueBox : MonoBehaviour
         }
     }
 
-    // show a single line
     public void Show(string text, Sprite portrait = null, string speaker = "", bool freezeMovement = true)
     {
         var lines = new List<DialogueLine> { new DialogueLine(text, portrait, speaker) };
         ShowSequence(lines, null, freezeMovement);
     }
 
-    // queue up multiple lines
     public void ShowSequence(List<DialogueLine> lines, System.Action onEnd = null, bool freezeMovement = true)
     {
-        // if already showing dialogue, queue this one for later
         if (gameObject.activeSelf)
         {
             pendingQueue.Enqueue(new PendingDialogue(lines, onEnd, freezeMovement));
@@ -100,7 +91,6 @@ public class DialogueBox : MonoBehaviour
     {
         if (lineQueue.Count == 0)
         {
-            // current sequence done
             System.Action callback = onDialogueEnd;
             onDialogueEnd = null;
 
@@ -111,7 +101,6 @@ public class DialogueBox : MonoBehaviour
 
             callback?.Invoke();
 
-            // play next queued dialogue if there is one
             if (pendingQueue.Count > 0)
             {
                 PendingDialogue next = pendingQueue.Dequeue();
@@ -174,14 +163,10 @@ public class DialogueBox : MonoBehaviour
         isTyping = false;
         waitingForAdvance = true;
 
-        if (advanceHint != null && !shownHintOnce)
-        {
+        if (advanceHint != null)
             advanceHint.enabled = true;
-            shownHintOnce = true;
-        }
     }
 
-    // holds a dialogue waiting to be shown
     private class PendingDialogue
     {
         public List<DialogueLine> lines;
